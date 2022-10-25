@@ -1,12 +1,13 @@
 - url: https://www.nettavisen.no
   output: nettavisen.png
-  selector: "#main-content-begin"
+  selector: "#front0"
+  selector: "#front1"
+  selector: "#front2"
+  selector: "#front3"
+  selector: "#front4"
   javascript: |
     document.querySelectorAll(
       'amedia-privacybox'
-    ).forEach(el => el.style.display = 'none');
-    document.querySelectorAll(
-      '.front:nth-of-type(n+6)'
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
