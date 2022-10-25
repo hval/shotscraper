@@ -1,6 +1,10 @@
 - url: https://www.nettavisen.no
   output: nettavisen.png
   selector: "#main-content-begin"
+  javascript: |
+    document.querySelectorAll(
+      'amedia-privacybox'
+    ).forEach(el => el.style.display = 'none')
   height: 800
   wait: 5000
 - url: https://www.vg.no/
