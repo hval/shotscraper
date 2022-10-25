@@ -9,5 +9,10 @@
   wait: 5000
 - url: https://www.vg.no/
   output: vg.png
+  selector: "#hovedlopet"
+  javascript: |
+    document.querySelectorAll(
+      '#sp_message_container_625854'
+    ).forEach(el => el.style.display = 'none') 
   height: 800
   wait: 5000
