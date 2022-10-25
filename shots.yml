@@ -1,3 +1,6 @@
 - url: https://www.nettavisen.no
-  output: shot.png
+  output: nettavisen.png
+  height: 800
+- url: https://www.vg.no/
+  output: vg.png
   height: 800
