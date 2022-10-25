@@ -5,7 +5,11 @@
     document.querySelectorAll(
       'amedia-privacybox'
     ).forEach(el => el.style.display = 'none')
+    document.querySelectorAll(
+      '.front:nth-of-type(n+6)'
+    ).forEach(el => el.style.display = 'none')
   height: 800
+  width:500
   wait: 5000
 - url: https://www.vg.no/
   output: vg.png
@@ -13,6 +17,10 @@
   javascript: |
     document.querySelectorAll(
       '#sp_message_container_625854'
-    ).forEach(el => el.style.display = 'none') 
+    ).forEach(el => el.style.display = 'none')
+    document.querySelectorAll(
+      '.articles:nth-of-type(n+2)'
+    ).forEach(el => el.style.display = 'none')
   height: 800
+  width: 500
   wait: 5000
