@@ -1,10 +1,11 @@
 - url: https://www.nettavisen.no
   output: nettavisen.png
-  selector: "#front0"
-  selector: "#front1"
-  selector: "#front2"
-  selector: "#front3"
-  selector: "#front4"
+  selectors: 
+    - "#front0"
+    - "#front1"
+    - "#front2"
+    - "#front3"
+    - "#front4"
   javascript: |
     document.querySelectorAll(
       'amedia-privacybox'
