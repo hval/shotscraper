@@ -19,7 +19,7 @@
       '#sp_message_container_625854'
     ).forEach(el => el.style.display = 'none');
     document.querySelectorAll(
-      '.articles:nth-of-type(n+2)'
+      '.defer-render'
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
