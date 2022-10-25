@@ -10,6 +10,10 @@
     document.querySelectorAll(
       'amedia-privacybox'
     ).forEach(el => el.style.display = 'none');
+    document.querySelectorAll(
+      '.bazaar-grid'
+    ).forEach(el => el.style.display = 'none');
+    document.querySelector("#front4").scrollIntoView();
   height: 800
   width: 500
   wait: 5000
