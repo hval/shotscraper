@@ -6,6 +6,7 @@
   - "#front2"
   - "#front3"
   - "#front4"
+  padding: 10
   javascript: |
     document.querySelectorAll(
       'amedia-privacybox'
