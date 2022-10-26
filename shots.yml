@@ -9,10 +9,7 @@
   padding: 10
   javascript: |
     document.querySelectorAll(
-      'amedia-privacybox'
-    ).forEach(el => el.style.display = 'none');
-    document.querySelectorAll(
-      '.bazaar-grid'
+      'amedia-privacybox, #page-header, .bazaar-grid'
     ).forEach(el => el.style.display = 'none');
     document.querySelector("#front4").scrollIntoView();
   height: 800
@@ -23,10 +20,7 @@
   selector: "#hovedlopet"
   javascript: |
     document.querySelectorAll(
-      '#sp_message_container_625854'
-    ).forEach(el => el.style.display = 'none');
-    document.querySelectorAll(
-      '.defer-render'
+      '#sp_message_container_625854, .defer-render'
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
