@@ -1,9 +1,9 @@
 name: Take screenshots
 
-# on:
-#  schedule:
-#   - cron: '*/60 * * * *'
-#  workflow_dispatch:
+ on:
+  schedule:
+   - cron: '*/60 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
