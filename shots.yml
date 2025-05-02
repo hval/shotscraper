@@ -1,26 +1,19 @@
 - url: https://www.nettavisen.no
   output: nettavisen.png
-  selectors: 
-  - "#front0"
-  - "#front1"
-  - "#front2"
-  - "#front3"
-  - "#front4"
   padding: 10
   javascript: |
     document.querySelectorAll(
-      'amedia-privacybox, #page-header, .bazaar-grid'
+      "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
-    document.querySelector("#front4").scrollIntoView();
   height: 800
   width: 500
   wait: 5000
 - url: https://www.vg.no/
   output: vg.png
-  selector: "#hovedlopet"
+  javascript: |
   javascript: |
     document.querySelectorAll(
-      '#sp_message_container_625854, .defer-render'
+      "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
