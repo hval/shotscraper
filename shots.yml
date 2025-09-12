@@ -18,3 +18,13 @@
   height: 800
   width: 500
   wait: 5000
+- url: https://www.dagbladet.no/
+  output: db.png
+  javascript: |
+  javascript: |
+    document.querySelectorAll(
+      "[id^='sp_message_container']"
+    ).forEach(el => el.style.display = 'none');
+  height: 800
+  width: 500
+  wait: 5000
