@@ -28,3 +28,34 @@
   height: 800
   width: 500
   wait: 5000
+- url: https://www.ba.no/
+  output: ba.png
+  javascript: |
+  javascript: |
+    document.querySelectorAll(
+      "[id^='sp_message_container']"
+    ).forEach(el => el.style.display = 'none');
+  height: 800
+  width: 500
+  wait: 5000
+  - url: https://www.dt.no/
+  output: dt.png
+  javascript: |
+  javascript: |
+    document.querySelectorAll(
+      "[id^='sp_message_container']"
+    ).forEach(el => el.style.display = 'none');
+  height: 800
+  width: 500
+  wait: 5000
+  - url: https://www.bt.no/
+  output: bt.png
+  javascript: |
+  javascript: |
+    document.querySelectorAll(
+      "[id^='sp_message_container']"
+    ).forEach(el => el.style.display = 'none');
+  height: 800
+  width: 500
+  wait: 5000
+  
