@@ -1,3 +1,4 @@
+---
 - url: https://www.nettavisen.no
   output: nettavisen.png
   padding: 10
@@ -11,7 +12,6 @@
 - url: https://www.vg.no/
   output: vg.png
   javascript: |
-  javascript: |
     document.querySelectorAll(
       "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
@@ -20,7 +20,6 @@
   wait: 5000
 - url: https://www.dagbladet.no/
   output: db.png
-  javascript: |
   javascript: |
     document.querySelectorAll(
       "[id^='sp_message_container']"
@@ -31,31 +30,27 @@
 - url: https://www.ba.no/
   output: ba.png
   javascript: |
-  javascript: |
     document.querySelectorAll(
       "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
   wait: 5000
-  - url: https://www.dt.no/
+- url: https://www.dt.no/
   output: dt.png
   javascript: |
-  javascript: |
     document.querySelectorAll(
       "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
   wait: 5000
-  - url: https://www.bt.no/
+- url: https://www.bt.no/
   output: bt.png
   javascript: |
-  javascript: |
     document.querySelectorAll(
       "[id^='sp_message_container']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
   wait: 5000
-  
