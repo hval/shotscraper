@@ -9,7 +9,9 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
 - url: https://www.vg.no/
   output: vg.png
   javascript: |
@@ -19,7 +21,9 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
 - url: https://www.dagbladet.no/
   output: db.png
   javascript: |
@@ -29,7 +33,9 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
 - url: https://www.ba.no/
   output: ba.png
   javascript: |
@@ -39,7 +45,9 @@
   height: 800
   width: 500
   wait: 5000
-  "user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1""
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
 - url: https://www.dt.no/
   output: dt.png
   javascript: |
@@ -49,7 +57,9 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
 - url: https://www.bt.no/
   output: bt.png
   javascript: |
@@ -59,8 +69,10 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
-  - url: https://www.bt.dk/
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
+- url: https://www.bt.dk/
   output: bt.dk.png
   javascript: |
     document.querySelectorAll(
@@ -69,8 +81,10 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
-  - url: https://www.ekstrabladet.dk/
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
+- url: https://www.ekstrabladet.dk/
   output: ekstrabladet.dk.png
   javascript: |
     document.querySelectorAll(
@@ -79,4 +93,6 @@
   height: 800
   width: 500
   wait: 5000
-  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1"
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X)
+    AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148
+    Safari/604.1
