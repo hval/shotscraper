@@ -101,26 +101,3 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
-
-    - name: Cleanup old artifacts
-      run: |
-        # Keep only the last 3 days of videos/metadata as configured
-        echo "Video and metadata cleanup handled by Python scripts"
-
-    - name: Commit generated files (optional)
-      run: |
-        git config user.name "Frontskudd Bot"
-        git config user.email "actions@users.noreply.github.com"
-
-        # Add generated files
-        git add frontskudd/out/
-
-        # Commit only if there are changes
-        if ! git diff --staged --quiet; then
-          timestamp=$(TZ=Europe/Oslo date)
-          git commit -m "🎬 Generate Frontskudd timelapse - ${timestamp}"
-          git push
-        else
-          echo "No changes to commit"
-        fi
-      continue-on-error: true  # Don't fail the workflow if commit fails
