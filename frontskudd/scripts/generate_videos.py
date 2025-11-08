@@ -292,7 +292,7 @@ class VideoGenerator:
         self.metadata_dir = self.out_dir / "metadata"
         self.frames_dir = self.out_dir / "frames_temp"
 
-        self.git_manager = GitManager(base_dir / "shotscraper")
+        self.git_manager = GitManager(base_dir.parent)  # Go up one level to the actual repo root
         self.ocr_processor = OCRProcessor(config.site_crop_top)
         self.oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
 
