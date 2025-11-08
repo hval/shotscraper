@@ -75,13 +75,19 @@ jobs:
         cd frontskudd
         python scripts/generate_html.py
 
+    - name: Copy content to repository root for custom domain
+      run: |
+        # Copy the generated content to repository root for GitHub Pages
+        cp -r frontskudd/out/* .
+        # Keep the original in frontskudd/out as well
+
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: 'frontskudd/out'
+        path: '.'
 
     - name: Deploy to GitHub Pages
       id: deployment
