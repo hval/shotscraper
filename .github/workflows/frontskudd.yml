@@ -33,7 +33,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Fetch full history for video generation
+        fetch-depth: 2000  # Shallow clone: ~7 days of commits (5min intervals = ~2000 commits)
 
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
