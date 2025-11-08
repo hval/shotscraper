@@ -75,9 +75,18 @@ jobs:
         cd frontskudd
         python scripts/generate_html.py
 
+    - name: Clean up temporary files
+      run: |
+        # Remove temporary frame images (not needed for web interface)
+        rm -rf frontskudd/out/frames_temp
+        echo "Cleaned up temporary files"
+
+        # Show final sizes
+        du -sh frontskudd/out/*
+
     - name: Copy content to repository root for custom domain
       run: |
-        # Copy the generated content to repository root for GitHub Pages
+        # Copy only the needed content to repository root for GitHub Pages
         cp -r frontskudd/out/* .
         # Keep the original in frontskudd/out as well
 

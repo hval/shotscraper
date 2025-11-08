@@ -539,6 +539,11 @@ class VideoGenerator:
                 logger.info(f"Removing old metadata: {old_file.name}")
                 old_file.unlink()
 
+        # Cleanup temporary frame directories
+        if self.frames_dir.exists():
+            logger.info("Cleaning up temporary frame directories")
+            shutil.rmtree(self.frames_dir, ignore_errors=True)
+
 
 def main():
     """Main entry point."""
