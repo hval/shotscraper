@@ -1,0 +1,16 @@
+archive_days: 3
+speedup_factor: 600        # Default: 10 minutes -> 1 second
+description: "Et visuelt arkiv for toppsakene den siste uka. Aviser sammenlignes side om side i en timelapse."
+
+videos:
+  - name: nettavisen_vg_db
+    title: "Nettavisen, VG og Dagbladet"
+    sites: [nettavisen, vg, db]
+      
+site_crop_top:
+  nettavisen: 130
+  vg: 100
+  db: 130
+  ba: 280
+  dt: 242
+  bt: 160

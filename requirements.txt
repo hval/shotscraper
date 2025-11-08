@@ -1,1 +1,7 @@
+# Shot-scraper dependencies
 shot-scraper
+
+# Frontskudd dependencies
+PyYAML>=6.0
+Pillow>=10.0.0
+pytesseract>=0.3.10

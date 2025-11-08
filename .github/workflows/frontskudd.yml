@@ -1,0 +1,111 @@
+name: Frontskudd - Generate Timelapse Videos
+
+on:
+  schedule:
+    # Run at 1:00 UTC (2:00 AM Oslo time)
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    inputs:
+      skip_ocr:
+        description: 'Skip OCR processing for faster testing'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  frontskudd:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch full history for video generation
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          tesseract-ocr \
+          tesseract-ocr-nor \
+          ffmpeg \
+          fonts-dejavu-core
+
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Generate videos and metadata
+      run: |
+        cd frontskudd
+        if [ "${{ github.event.inputs.skip_ocr }}" = "true" ]; then
+          python scripts/generate_videos.py --skip-ocr
+        else
+          python scripts/generate_videos.py
+        fi
+
+    - name: Generate HTML interface
+      run: |
+        cd frontskudd
+        python scripts/generate_html.py
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: 'frontskudd/out'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
+    - name: Cleanup old artifacts
+      run: |
+        # Keep only the last 3 days of videos/metadata as configured
+        echo "Video and metadata cleanup handled by Python scripts"
+
+    - name: Commit generated files (optional)
+      run: |
+        git config user.name "Frontskudd Bot"
+        git config user.email "actions@users.noreply.github.com"
+
+        # Add generated files
+        git add frontskudd/out/
+
+        # Commit only if there are changes
+        if ! git diff --staged --quiet; then
+          timestamp=$(TZ=Europe/Oslo date)
+          git commit -m "🎬 Generate Frontskudd timelapse - ${timestamp}"
+          git push
+        else
+          echo "No changes to commit"
+        fi
+      continue-on-error: true  # Don't fail the workflow if commit fails

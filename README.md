@@ -1,109 +1,143 @@
-# shot-scraper-template
+# 📸 Norwegian News Screenshot Archive + 📰 Frontskudd Timelapse
 
-Quickly create a new GitHub repository that takes automated screenshots of a web page using [shot-scraper](https://github.com/simonw/shot-scraper).
+This repository combines automated screenshot capture with time-lapse video generation for Norwegian news websites.
 
-Read more about how this works in [Instantly create a GitHub repository to take screenshots of a web page](https://simonwillison.net/2022/Mar/14/shot-scraper-template/).
+## Two-Part System
 
-[simonw/simonwillison-net-shot](https://github.com/simonw/simonwillison-net-shot) is an example repository created using this template.
+### 🔄 Screenshot Capture (Every 5 minutes)
+- Uses [shot-scraper](https://github.com/simonw/shot-scraper) to capture news front pages
+- Monitors: Nettavisen, VG, Dagbladet, BA, DT, BT
+- Stores screenshots in git history
+- Runs via GitHub Actions every 5 minutes
 
-## How to get started
+### 🎬 Frontskudd Timelapse (Nightly at 2 AM)
+- Processes screenshot history into time-lapse videos
+- Extracts searchable text via OCR
+- Generates interactive web interface
+- Deploys to GitHub Pages
 
-Visit https://github.com/simonw/shot-scraper-template/generate
+## Quick Start
 
-<img width="500" alt="Screenshot of the interface for creating a new repository with this template, showing the URL pasted into the description field" src="https://user-images.githubusercontent.com/9599/158208859-ee12e174-5c5f-40c0-b5f2-e3df15f1ee4f.png">
+### For Screenshots
+Screenshots are captured automatically. Current sites in `shots.yml`:
+- [Nettavisen](https://www.nettavisen.no)
+- [VG](https://www.vg.no/)
+- [Dagbladet](https://www.dagbladet.no/)
+- [BA](https://www.ba.no/)
+- [DT](https://www.dt.no/)
+- [BT](https://www.bt.no/)
 
-Pick a name for your new repository, and paste **the URL** of the page you would like to take screenshots of into the **description field** (including the `http://` or `https://`).
+### For Timelapse Videos
+1. **View the interface**: Visit the deployed GitHub Pages site
+2. **Configure**: Edit `frontskudd/config.yaml`
+3. **Manual trigger**: Run the "Frontskudd" GitHub Action
 
-Then click **Create repository from template**.
+## Repository Structure
 
-Your new repository will be created, and a script will run which will do the following:
+```
+├── shots.yml                     # Screenshot configuration
+├── requirements.txt              # Python dependencies
+├── .github/workflows/
+│   ├── shots.yml                 # 5-minute screenshot capture
+│   └── frontskudd.yml           # Nightly video generation
+├── frontskudd/                   # Timelapse video system
+│   ├── config.yaml              # Frontskudd configuration
+│   ├── scripts/
+│   │   ├── generate_videos.py
+│   │   └── generate_html.py
+│   └── out/                     # Generated videos & web interface
+└── *.png                        # Latest screenshots
+```
 
-- Add a `shots.yml` file to your repository containing the URL of the page you requested
-- Take a screenshot of that URL and add that to your repository as a file called `shot.png`
+## Configuration
 
-You can then edit that `shots.yml` file to customize your screenshot, or add more URLs - see below.
-
-If the script does not run when the repository is first created you may need to **Enable Actions** first:
-
-- Click the "Actions" tab
-- Clice "Enable Actions"
-- Run the "Take screenshots" workflow as described below
-
-## Re-taking the screenshot
-
-To re-take the screenshot:
-
-- Click "Actions"
-- Select the "Take screenshots" workflow
-- Click the "Run workflow" menu item
-- Click the green "Run workflow" button
-
-<img width="600" alt="image" src="https://user-images.githubusercontent.com/9599/158210618-4b361520-4fbb-4a90-ab8c-f729776dd8f0.png">
-
-The repository will keep a history of every previous version of each screenshot, which is useful for keeping track of visual changes to a page.
-
-## Configuring the screenshots
-
-The initial `shots.yml` file in your repository should look like this:
-
+### Screenshots (`shots.yml`)
 ```yaml
-- url: https://simonwillison.net/
-  output: shot.png
+- url: https://www.nettavisen.no
+  output: nettavisen.png
   height: 800
+  width: 500
+  wait: 5000
 ```
 
-To change the name of the file that the screenshot is saved to, change `output: shot.png` to a different file name.
-
-To take a full height image of the page, remove the `height: 800` line.
-
-To add additional screenshots, add them to the YAML file like this:
-
+### Timelapse (`frontskudd/config.yaml`)
 ```yaml
-- url: https://simonwillison.net/
-  output: shot.png
-  height: 800
-- url: https://www.example.com/
-  output: example.png
-  height: 800
+archive_days: 3                    # Days to include in videos
+speedup_factor: 600               # 600x speed (10min → 1sec)
+description: "News timeline"      # Web interface description
+
+videos:
+  - name: nettavisen_vg_db
+    title: "Nettavisen, VG og Dagbladet"
+    sites: [nettavisen, vg, db]
 ```
-Other useful options include:
 
-- `wait: 3000` to add a 3 second delay before taking the shot (in case some things need more time to load)
-- `javascript: ...` to execute custom JavaScript before taking the shot - to activate menus or hide elements or similar
-- `quality: 80` to save a smaller, lower quality JPEG image
+## GitHub Actions
 
-This example takes a shot of the LA Times homepage after hiding ads and the terms of service prompt:
+### Screenshot Workflow
+- **Schedule**: Every 5 minutes
+- **Action**: Capture screenshots, commit to git
+- **Trigger**: Automatic + manual
 
-```yaml
-- url: https://www.latimes.com/
-  output: latimes.jpg
-  width: 1600
-  height: 1600
-  quality: 80
-  wait: 2000
-  javascript: |
-    document.querySelectorAll(
-      '[data-ad-rendered],#ensNotifyBanner'
-    ).forEach(el => el.style.display = 'none')
+### Frontskudd Workflow
+- **Schedule**: 2:00 AM Oslo time daily
+- **Action**: Generate videos, deploy web interface
+- **Trigger**: Automatic + manual
+- **Output**: GitHub Pages deployment
+
+## Local Development
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Generate videos (run from frontskudd/ directory)
+cd frontskudd
+python scripts/generate_videos.py
+
+# Generate web interface
+python scripts/generate_html.py
+
+# Test with limited frames
+python scripts/generate_videos.py --test-frames 5 --skip-ocr
 ```
-Further options are described in the [shot-scraper README file](https://github.com/simonw/shot-scraper#taking-multiple-screenshots).
 
-## Installing fonts for more languages
+## System Requirements
 
-The default Ubuntu used by GitHub Actions does not include fonts for many languages, including Chinese and Japanese.
+- **Python 3.11+**
+- **FFmpeg** (video processing)
+- **Tesseract OCR** (text extraction)
+- **Playwright** (screenshot capture)
 
-You can modify the `shots.yml` file to install extra fonts by adding this section, between the "Cache Playwright browsers" and "Install dependencies" steps:
+## Features
 
-```yaml
-    - name: Cache Playwright browsers
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/ms-playwright/
-        key: ${{ runner.os }}-browsers
-    - name: Install extra fonts
-      run: |
-        sudo apt-get install fonts-arphic-ukai fonts-arphic-uming fonts-ipafont-mincho fonts-ipafont-gothic fonts-unfonts-core
-    - name: Install dependencies
-      run: |
-        pip install -r requirements.txt
-```
+### Screenshot Features
+- ✅ Automated 5-minute capture
+- ✅ Cookie banner removal
+- ✅ Git-based version history
+- ✅ Multiple Norwegian news sites
+
+### Timelapse Features
+- ✅ Time-lapse video generation
+- ✅ OCR text extraction & search
+- ✅ Interactive web interface
+- ✅ Norwegian timezone handling
+- ✅ Responsive design with dark mode
+- ✅ Clickable search results with timestamp navigation
+
+## Deployment
+
+The system automatically deploys to GitHub Pages at:
+`https://hval.github.io/shotscraper`
+
+## Contributing
+
+1. Screenshots: Edit `shots.yml` to add/modify sites
+2. Timelapse: Edit `frontskudd/config.yaml` for video settings
+3. Code: Both workflows support manual triggers for testing
+
+---
+
+**Live Demo**: [View the latest timelapse →](https://hval.github.io/shotscraper)
+
+*Built with shot-scraper, Python, FFmpeg, and ❤️*
