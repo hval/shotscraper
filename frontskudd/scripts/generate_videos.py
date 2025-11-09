@@ -110,16 +110,21 @@ class GitManager:
             oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
             now_oslo = datetime.now(oslo_tz)
 
-            # Start from N+1 days ago at midnight Oslo time (to exclude current day)
+            # Start from N+1 days ago at midnight Oslo time
             start_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days + 1)
+
+            # End at start of today (midnight) to exclude current day completely
+            end_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0)
 
             # Convert to UTC for git
             start_date_utc = start_date_oslo.astimezone(timezone.utc)
+            end_date_utc = end_date_oslo.astimezone(timezone.utc)
             since_iso = start_date_utc.isoformat()
+            until_iso = end_date_utc.isoformat()
 
-            logger.info(f"Fetching commits from {start_date_oslo.strftime('%Y-%m-%d %H:%M')} Oslo time ({days} complete days, excluding today)")
+            logger.info(f"Fetching commits from {start_date_oslo.strftime('%Y-%m-%d %H:%M')} to {end_date_oslo.strftime('%Y-%m-%d %H:%M')} Oslo time ({days} complete days, excluding today)")
 
-            cmd = f'git -C "{self.repo_path}" log --since="{since_iso}" --pretty=format:%H%x00%cI%x00'
+            cmd = f'git -C "{self.repo_path}" log --since="{since_iso}" --until="{until_iso}" --pretty=format:%H%x00%cI%x00'
             result = subprocess.check_output(cmd, shell=True, text=True).strip()
 
             return self._parse_commit_output(result)

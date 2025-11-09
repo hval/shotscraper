@@ -65,13 +65,20 @@ class VideoCollector:
             return {}
 
     def collect_videos(self) -> Dict[str, List[VideoInfo]]:
-        """Collect all videos grouped by date."""
+        """Collect all videos grouped by date, excluding current day."""
+        from datetime import datetime
+        import zoneinfo
+
+        # Get current date in Oslo timezone to exclude today's videos
+        oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
+        today_oslo = datetime.now(oslo_tz).strftime('%Y-%m-%d')
+
         videos = sorted(self.video_dir.glob("*.mp4"))
         archive = {}
 
         for video in videos:
             video_info = self._parse_video_filename(video)
-            if video_info:
+            if video_info and video_info.date != today_oslo:  # Exclude current day
                 archive.setdefault(video_info.date, []).append(video_info)
 
         return archive
