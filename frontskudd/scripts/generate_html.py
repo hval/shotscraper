@@ -64,22 +64,24 @@ class VideoCollector:
         except Exception:
             return {}
 
-    def collect_videos(self) -> Dict[str, List[VideoInfo]]:
-        """Collect all videos grouped by date, excluding current day."""
-        from datetime import datetime
-        import zoneinfo
-
-        # Get current date in Oslo timezone to exclude today's videos
-        oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
-        today_oslo = datetime.now(oslo_tz).strftime('%Y-%m-%d')
-
+    def collect_videos(self, include_today: bool = False) -> Dict[str, List[VideoInfo]]:
+        """Collect all videos grouped by date, optionally including current day."""
         videos = sorted(self.video_dir.glob("*.mp4"))
         archive = {}
 
+        if not include_today:
+            # Get current date in Oslo timezone to exclude today's videos
+            from datetime import datetime
+            import zoneinfo
+            oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
+            today_oslo = datetime.now(oslo_tz).strftime('%Y-%m-%d')
+
         for video in videos:
             video_info = self._parse_video_filename(video)
-            if video_info and video_info.date != today_oslo:  # Exclude current day
-                archive.setdefault(video_info.date, []).append(video_info)
+            if video_info:
+                # Include video if we're including today OR it's not today
+                if include_today or video_info.date != today_oslo:
+                    archive.setdefault(video_info.date, []).append(video_info)
 
         return archive
 
@@ -893,7 +895,7 @@ class HTMLGenerator:
         self.metadata_dir = self.out_dir / "metadata"
         self.html_file = self.out_dir / "index.html"
 
-    def generate(self) -> bool:
+    def generate(self, include_today: bool = False) -> bool:
         """Generate the HTML file."""
         try:
             # Load config
@@ -901,7 +903,7 @@ class HTMLGenerator:
 
             # Collect videos with config
             collector = VideoCollector(self.video_dir, self.metadata_dir, config_path)
-            archive = collector.collect_videos()
+            archive = collector.collect_videos(include_today)
 
             if not archive:
                 logger.error("No videos found in videos directory")
@@ -933,10 +935,16 @@ class HTMLGenerator:
 
 def main():
     """Main entry point."""
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Generate HTML interface for timelapse videos.")
+    parser.add_argument("--include-today", action="store_true", help="Include current day videos in interface")
+    args = parser.parse_args()
+
     base_dir = Path(__file__).resolve().parent.parent
     generator = HTMLGenerator(base_dir)
 
-    if generator.generate():
+    if generator.generate(args.include_today):
         print(f"✅ HTML generated: {generator.html_file}")
     else:
         print("❌ HTML generation failed")

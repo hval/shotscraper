@@ -87,7 +87,16 @@ jobs:
     - name: Generate HTML interface
       run: |
         cd frontskudd
-        python scripts/generate_html.py
+
+        # Build HTML command with conditional flag
+        HTML_CMD="python scripts/generate_html.py"
+
+        if [ "${{ github.event.inputs.include_today }}" = "true" ]; then
+          HTML_CMD="$HTML_CMD --include-today"
+        fi
+
+        echo "Running: $HTML_CMD"
+        $HTML_CMD
 
     - name: Clean up temporary files
       run: |
