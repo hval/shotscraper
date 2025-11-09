@@ -11,6 +11,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      include_today:
+        description: 'Include current day in video generation (useful for testing or evening runs)'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: write
@@ -64,11 +69,20 @@ jobs:
     - name: Generate videos and metadata
       run: |
         cd frontskudd
+
+        # Build command with conditional flags
+        CMD="python scripts/generate_videos.py"
+
         if [ "${{ github.event.inputs.skip_ocr }}" = "true" ]; then
-          python scripts/generate_videos.py --skip-ocr
-        else
-          python scripts/generate_videos.py
+          CMD="$CMD --skip-ocr"
         fi
+
+        if [ "${{ github.event.inputs.include_today }}" = "true" ]; then
+          CMD="$CMD --include-today"
+        fi
+
+        echo "Running: $CMD"
+        $CMD
 
     - name: Generate HTML interface
       run: |
