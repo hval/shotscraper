@@ -12,9 +12,6 @@ videos:
   - name: ba_bt
     title: "Bergensavisen og Bergens Tidende"
     sites: [ba, bt]
-  - name: dt
-    title: "Drammens Tidende"
-    sites: [dt]
       
 site_crop_top:
   nettavisen: 130
