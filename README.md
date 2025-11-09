@@ -1,4 +1,4 @@
-# 📸 Norwegian News Screenshot Archive + 📰 Frontskudd Timelapse
+# 📸 Frontpage Screenshot Archive + 📰 Timelapse Videos
 
 This repository combines automated screenshot capture with time-lapse video generation for Norwegian news websites.
 
@@ -26,6 +26,8 @@ Screenshots are captured automatically. Current sites in `shots.yml`:
 - [BA](https://www.ba.no/)
 - [DT](https://www.dt.no/)
 - [BT](https://www.bt.no/)
+- [BT.dk](https://www.bt.dk/)
+- [Ekstrabladet](https://www.ekstrabladet.dk/)
 
 ### For Timelapse Videos
 1. **View the interface**: Visit the deployed GitHub Pages site
