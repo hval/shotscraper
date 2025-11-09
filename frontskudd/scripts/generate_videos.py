@@ -103,18 +103,21 @@ class GitManager:
     def __init__(self, repo_path: Path):
         self.repo_path = repo_path
 
-    def get_recent_commits(self, days: int) -> List[Dict]:
-        """Get commits from the last N complete calendar days, excluding current day (midnight to midnight Oslo time)."""
+    def get_recent_commits(self, days: int, include_today: bool = False) -> List[Dict]:
+        """Get commits from the last N calendar days, optionally including current day."""
         try:
             # Calculate the start of the earliest day we want (N days ago at midnight Oslo time)
             oslo_tz = zoneinfo.ZoneInfo("Europe/Oslo")
             now_oslo = datetime.now(oslo_tz)
 
-            # Start from N+1 days ago at midnight Oslo time
-            start_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days + 1)
-
-            # End at start of today (midnight) to exclude current day completely
-            end_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0)
+            if include_today:
+                # Include today: start from N days ago, end at current time
+                start_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days)
+                end_date_oslo = now_oslo  # Current time
+            else:
+                # Exclude today: start from N+1 days ago, end at start of today
+                start_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=days + 1)
+                end_date_oslo = now_oslo.replace(hour=0, minute=0, second=0, microsecond=0)
 
             # Convert to UTC for git
             start_date_utc = start_date_oslo.astimezone(timezone.utc)
@@ -122,7 +125,8 @@ class GitManager:
             since_iso = start_date_utc.isoformat()
             until_iso = end_date_utc.isoformat()
 
-            logger.info(f"Fetching commits from {start_date_oslo.strftime('%Y-%m-%d %H:%M')} to {end_date_oslo.strftime('%Y-%m-%d %H:%M')} Oslo time ({days} complete days, excluding today)")
+            include_today_msg = "including today" if include_today else "excluding today"
+            logger.info(f"Fetching commits from {start_date_oslo.strftime('%Y-%m-%d %H:%M')} to {end_date_oslo.strftime('%Y-%m-%d %H:%M')} Oslo time ({days} days, {include_today_msg})")
 
             cmd = f'git -C "{self.repo_path}" log --since="{since_iso}" --until="{until_iso}" --pretty=format:%H%x00%cI%x00'
             result = subprocess.check_output(cmd, shell=True, text=True).strip()
@@ -314,7 +318,7 @@ class VideoGenerator:
         for directory in [self.out_dir, self.video_dir, self.metadata_dir, self.frames_dir]:
             directory.mkdir(exist_ok=True, parents=True)
 
-    def generate_videos(self, test_frames: Optional[int] = None, skip_ocr: bool = False) -> None:
+    def generate_videos(self, test_frames: Optional[int] = None, skip_ocr: bool = False, include_today: bool = False) -> None:
         """Main entry point for video generation."""
         if skip_ocr:
             self.ocr_processor.skip_ocr = True
@@ -322,7 +326,7 @@ class VideoGenerator:
 
         logger.info(f"Generating videos for last {self.config.archive_days} days...")
 
-        commits = self.git_manager.get_recent_commits(self.config.archive_days)
+        commits = self.git_manager.get_recent_commits(self.config.archive_days, include_today)
         if not commits:
             logger.error("No commits found")
             return
@@ -561,6 +565,7 @@ def main():
     parser = argparse.ArgumentParser(description="Generate news timelapse videos.")
     parser.add_argument("--test-frames", type=int, help="Test mode: only generate N frames per day")
     parser.add_argument("--skip-ocr", action="store_true", help="Skip OCR text extraction for faster testing")
+    parser.add_argument("--include-today", action="store_true", help="Include current day in video generation (useful for testing or evening runs)")
     args = parser.parse_args()
 
     # Setup paths
@@ -572,7 +577,7 @@ def main():
 
     # Create and run video generator
     generator = VideoGenerator(config, base_dir)
-    generator.generate_videos(args.test_frames, args.skip_ocr)
+    generator.generate_videos(args.test_frames, args.skip_ocr, args.include_today)
 
 
 if __name__ == "__main__":
