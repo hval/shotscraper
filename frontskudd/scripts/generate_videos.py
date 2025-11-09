@@ -267,16 +267,22 @@ class FrameProcessor:
         text_width = bbox[2] - bbox[0]
         text_height = bbox[3] - bbox[1]
 
+        # Position with proper padding
+        padding = 8  # Increased padding for better visual balance
+        x_pos = 10
+        y_pos = 10
+
         # Draw background rectangle
-        padding = 4
         rect_coords = [
-            10 - padding, 10 - padding,
-            10 + text_width + padding, 10 + text_height + padding
+            x_pos - padding, y_pos - padding,
+            x_pos + text_width + padding, y_pos + text_height + padding
         ]
         draw.rectangle(rect_coords, fill=(0, 0, 0, 128))
 
-        # Draw text
-        draw.text((10, 10), timestamp, fill="white", font=self.font)
+        # Draw text centered within the rectangle
+        # Adjust y position to account for font baseline positioning
+        text_y_pos = y_pos + (text_height - bbox[3]) // 2
+        draw.text((x_pos, text_y_pos), timestamp, fill="white", font=self.font)
 
         return image
 
