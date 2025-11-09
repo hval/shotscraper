@@ -10,7 +10,7 @@ videos:
     title: "B.T. og Ekstrabladet"
     sites: [bt.dk, ekstrabladet.dk]
   - name: ba_bt
-    title: "Battle of Bergen"
+    title: "Bergensavisen og Bergens Tidende"
     sites: [ba, bt]
   - name: dt
     title: "Drammens Tidende"
