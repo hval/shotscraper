@@ -6,6 +6,15 @@ videos:
   - name: nettavisen_vg_db
     title: "Nettavisen, VG og Dagbladet"
     sites: [nettavisen, vg, db]
+  - name: btdk_ekstrabladet
+    title: "B.T. og Ekstrabladet"
+    sites: [btdk, ekstrabladet]
+  - name: ba_bt
+    title: "Battle of Bergen"
+    sites: [ba, bt]
+  - name: dt
+    title: "Drammens Tidende"
+    sites: [dt]
       
 site_crop_top:
   nettavisen: 130
@@ -14,3 +23,5 @@ site_crop_top:
   ba: 280
   dt: 242
   bt: 160
+  btdk: 130
+  ekstrabladet: 60
