@@ -8,7 +8,7 @@ videos:
     sites: [nettavisen, vg, db]
   - name: btdk_ekstrabladet
     title: "B.T. og Ekstrabladet"
-    sites: [btdk, ekstrabladet]
+    sites: [bt.dk, ekstrabladet.dk]
   - name: ba_bt
     title: "Battle of Bergen"
     sites: [ba, bt]
