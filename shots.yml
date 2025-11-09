@@ -75,8 +75,11 @@
 - url: https://www.bt.dk/
   output: bt.dk.png
   javascript: |
-    document.querySelectorAll(
-      "[id^='sp_message_container']"
+   document.querySelectorAll(
+      "[class^='AdBanner_container']"
+    ).forEach(el => el.style.display = 'none');
+   document.querySelectorAll(
+      "[id^='CybotCookiebotDialog']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
@@ -87,8 +90,11 @@
 - url: https://www.ekstrabladet.dk/
   output: ekstrabladet.dk.png
   javascript: |
-    document.querySelectorAll(
-      "[id^='sp_message_container']"
+   document.querySelectorAll(
+      "[id^='ebbanner_wrapper_swedishtakeover_topscroll']"
+    ).forEach(el => el.style.display = 'none');
+   document.querySelectorAll(
+      "[id^='CybotCookiebotDialog']"
     ).forEach(el => el.style.display = 'none');
   height: 800
   width: 500
