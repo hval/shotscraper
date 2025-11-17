@@ -68,6 +68,22 @@
   width: 500
   wait: 5000
   user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1
+- url: https://www.tb.no/
+  output: tb.png
+  javascript: |
+    document.querySelectorAll(
+      "[id^='sp_message_container']"
+    ).forEach(el => el.style.display = 'none');
+    document.querySelectorAll(
+      "subscription-product-marketing"
+    ).forEach(el => el.style.display = 'none');
+    document.querySelectorAll(
+      "bazaar-ad"
+    ).forEach(el => el.style.display = 'none');       
+  height: 800
+  width: 500
+  wait: 5000
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 Mobile/15E148 Safari/604.1  
 - url: https://www.bt.no/
   output: bt.png
   javascript: |
